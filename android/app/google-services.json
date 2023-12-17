@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "886460912993",
+    "project_id": "watchwaves",
+    "storage_bucket": "watchwaves.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886460912993:android:079d1372fcd4bf8683e120",
+        "android_client_info": {
+          "package_name": "com.fdevshashanksahu.projectint"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrzmL0mJrdve1uopI-XgSEykxbgTqdVYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
