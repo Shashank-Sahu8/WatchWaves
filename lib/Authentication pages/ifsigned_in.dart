@@ -16,7 +16,7 @@ class islogein extends StatelessWidget {
           if (snapshort.hasData) {
             return home();
           } else {
-            return MyHomePage();
+            return home();
           }
         },
       ),
