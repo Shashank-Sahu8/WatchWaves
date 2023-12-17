@@ -5,7 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:projectint/Authentication%20pages/google%20sign_in.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
 import 'lon2.dart';
 
@@ -210,7 +213,52 @@ class _MyHomePageState extends State<MyHomePage> {
                             style: TextStyle(fontSize: 18),
                           ),
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.6,
+                      )),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        "OR",
+                        style: TextStyle(color: Colors.blueGrey, fontSize: 14),
+                      ),
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Expanded(
+                          child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.6,
+                      )),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                    width: 200,
+                    child: SignInButton(
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      Buttons.google,
+                      onPressed: () {
+                        AuthServices().signInWithGoogle();
+                      },
+                    ))
               ],
             ),
           ),

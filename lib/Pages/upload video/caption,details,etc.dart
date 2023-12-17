@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:video_player/video_player.dart';
 
 class upload_video extends StatefulWidget {
@@ -16,9 +19,46 @@ class _upload_videoState extends State<upload_video> {
   late VideoPlayerController videoPlayerController;
   TextEditingController titlec = TextEditingController();
   TextEditingController decc = TextEditingController();
+  String currentaddress = "No location";
+  late Position currentposition;
+  Future<String> _determinePosition() async {
+    bool serviceenabled;
+    LocationPermission permission;
+
+    serviceenabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceenabled) {
+      Fluttertoast.showToast(msg: "Please keep your location on");
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied)
+        Fluttertoast.showToast(msg: "Location permission is denied");
+    }
+    if (permission == LocationPermission.deniedForever) {
+      Fluttertoast.showToast(msg: "Permission is denied forever");
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    try {
+      List<Placemark> placemark =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = placemark[0];
+      setState(() {
+        currentposition = position;
+        currentaddress =
+            "${place.locality},${place.postalCode},${place.country}";
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return currentaddress.toString();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    _determinePosition();
     setState(() {
       videoPlayerController = VideoPlayerController.file(widget.videofile);
     });
@@ -44,7 +84,52 @@ class _upload_videoState extends State<upload_video> {
           centerTitle: true,
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  _determinePosition();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text("Your current Location"),
+                        content: Container(
+                          height: 85,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Latitude- " +
+                                  "${currentposition.latitude.toString()}"),
+                              Text(
+                                  "Longitude- ${currentposition.longitude.toString()}"),
+                              Text("Address- ${currentaddress.toString()}")
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text("Ok"),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              _determinePosition();
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                  msg: currentaddress.toString());
+                            },
+                            child: Text("Relocate"),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 icon: Icon(
                   Icons.location_on,
                   size: 35,

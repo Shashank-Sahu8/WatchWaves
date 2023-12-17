@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'User Account.dart';
 import 'upload video/add_video.dart';
 
 class home extends StatefulWidget {
@@ -9,7 +10,7 @@ class home extends StatefulWidget {
   State<home> createState() => _homeState();
 }
 
-const pageindex = [Text("Home"), add_video(), Text("Profile")];
+const pageindex = [Text("Home"), add_video(), Account()];
 
 class _homeState extends State<home> {
   int page = 0;
