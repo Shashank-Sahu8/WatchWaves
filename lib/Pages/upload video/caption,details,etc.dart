@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 class upload_video extends StatefulWidget {
@@ -17,6 +18,7 @@ class upload_video extends StatefulWidget {
 
 class _upload_videoState extends State<upload_video> {
   late VideoPlayerController videoPlayerController;
+  videoupload vi = Get.put(videoupload.ins);
   TextEditingController titlec = TextEditingController();
   TextEditingController decc = TextEditingController();
   String currentaddress = "No location";

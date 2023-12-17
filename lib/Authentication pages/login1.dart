@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:projectint/Authentication%20pages/google%20sign_in.dart';
 import 'package:sign_in_button/sign_in_button.dart';
