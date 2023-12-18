@@ -185,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             }, //7388015234//273519
                             codeSent:
                                 (String verificationId, int? ResendingToken) {
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => verifyotp(

@@ -44,7 +44,7 @@ class Videoupload extends GetxController {
           username: "Shashank",
           uid: uid,
           id: uuid.v1(),
-          like: [],
+          like: 0,
           commentsCount: 0,
           description: des,
           cat: cat,
@@ -52,7 +52,8 @@ class Videoupload extends GetxController {
           location: loc,
           profilepic: "no pic",
           thumbnail: thumbnail,
-          videourl: await _uploadvidtostorage(uuid.v1(), videoPath));
+          videourl: await _uploadvidtostorage(uuid.v1(), videoPath),
+          time: Timestamp.now());
 
       await FirebaseFirestore.instance
           .collection("videos")

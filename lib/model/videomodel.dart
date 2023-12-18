@@ -4,7 +4,7 @@ class videoo {
   String username;
   String uid;
   String id;
-  List like;
+  int like;
   int commentsCount;
   String caption;
   String description;
@@ -13,6 +13,7 @@ class videoo {
   String videourl;
   String thumbnail;
   String profilepic;
+  var time;
   videoo(
       {required this.username,
       required this.uid,
@@ -25,6 +26,7 @@ class videoo {
       required this.location,
       required this.profilepic,
       required this.thumbnail,
+      required this.time,
       required this.videourl});
 
   Map<String, dynamic> toJson() => {
@@ -39,12 +41,14 @@ class videoo {
         "cat": cat,
         "profilepic": profilepic,
         "thumbnail": thumbnail,
-        "videourl": videourl
+        "videourl": videourl,
+        "time": time,
       };
 
   static videoo fromSnap(DocumentSnapshot snap) {
     var ss = snap.data() as Map<String, dynamic>;
     return videoo(
+        time: ss["time"],
         username: ss["username"],
         uid: ss["uid"],
         id: ss["id"],

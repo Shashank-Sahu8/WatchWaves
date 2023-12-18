@@ -59,6 +59,12 @@ class _upload_videoState extends State<upload_video> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    videoPlayerController.dispose();
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     _determinePosition();
@@ -82,8 +88,34 @@ class _upload_videoState extends State<upload_video> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              videoPlayerController.dispose();
-              Navigator.pop(context);
+              videoPlayerController.pause();
+              showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                        title: Text("Are you sure ?"),
+                        content: Text("Do you want to exit without uploading"),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              videoPlayerController.dispose();
+                            },
+                            child: Text("Yes"),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              videoPlayerController.play();
+                            },
+                            child: Text("No"),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green),
+                          )
+                        ],
+                      ));
             },
           ),
           iconTheme: IconThemeData(color: Colors.blueGrey),

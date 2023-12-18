@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:projectint/Pages/Explore.dart';
+import 'package:projectint/Pages/Home/Explore.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
