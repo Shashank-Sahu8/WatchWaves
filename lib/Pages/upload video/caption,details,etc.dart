@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:projectint/Pages/upload%20video/upload_video.dart';
 import 'package:video_player/video_player.dart';
 
 class upload_video extends StatefulWidget {
@@ -17,10 +18,11 @@ class upload_video extends StatefulWidget {
 }
 
 class _upload_videoState extends State<upload_video> {
+  bool loading = false;
   late VideoPlayerController videoPlayerController;
-  videoupload vi = Get.put(videoupload.ins);
   TextEditingController titlec = TextEditingController();
   TextEditingController decc = TextEditingController();
+  Videoupload videoupload = Get.put(Videoupload());
   String currentaddress = "No location";
   late Position currentposition;
   Future<String> _determinePosition() async {
@@ -48,8 +50,7 @@ class _upload_videoState extends State<upload_video> {
       Placemark place = placemark[0];
       setState(() {
         currentposition = position;
-        currentaddress =
-            "${place.locality},${place.postalCode},${place.country}";
+        currentaddress = "${place.locality},${place.country}";
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
@@ -78,6 +79,13 @@ class _upload_videoState extends State<upload_video> {
           elevation: 0,
           backgroundColor: Colors.white,
           automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              videoPlayerController.dispose();
+              Navigator.pop(context);
+            },
+          ),
           iconTheme: IconThemeData(color: Colors.blueGrey),
           title: Image.asset(
             'assets/WW iconimg.jpg',
@@ -189,8 +197,27 @@ class _upload_videoState extends State<upload_video> {
                         height: 5,
                       ),
                       ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Upload"),
+                        onPressed: () {
+                          setState(() {
+                            loading = true;
+                          });
+                          videoupload.uploadvid(
+                              titlec.text.toString(),
+                              decc.text.toString(),
+                              currentaddress.toString(),
+                              "entertain",
+                              widget.videopath);
+                          videoPlayerController.pause();
+                          //loading = false;
+                        },
+                        child: loading == true
+                            ? Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: CircularProgressIndicator(
+                                  color: Colors.blueGrey,
+                                ),
+                              )
+                            : Text("Upload"),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                       )
