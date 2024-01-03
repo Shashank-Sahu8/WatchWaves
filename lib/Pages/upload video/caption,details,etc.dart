@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:projectint/Pages/upload%20video/upload_video.dart';
 import 'package:video_player/video_player.dart';
 
@@ -18,6 +22,27 @@ class upload_video extends StatefulWidget {
 }
 
 class _upload_videoState extends State<upload_video> {
+  late StreamSubscription subscription;
+  bool isDeviceConnected = false;
+  bool isAlertSet = false;
+
+  getConnectivity() async {
+    isDeviceConnected = await InternetConnectionChecker().hasConnection;
+    if (!isDeviceConnected && isAlertSet == false) {
+      showDialogBox();
+      setState(() => isAlertSet = true);
+    }
+    subscription = Connectivity().onConnectivityChanged.listen(
+      (ConnectivityResult result) async {
+        isDeviceConnected = await InternetConnectionChecker().hasConnection;
+        if (!isDeviceConnected && isAlertSet == false) {
+          showDialogBox();
+          setState(() => isAlertSet = true);
+        }
+      },
+    );
+  }
+
   bool loading = false;
   late VideoPlayerController videoPlayerController;
   TextEditingController titlec = TextEditingController();
@@ -60,6 +85,7 @@ class _upload_videoState extends State<upload_video> {
 
   @override
   void dispose() {
+    subscription.cancel();
     super.dispose();
     videoPlayerController.dispose();
   }
@@ -68,6 +94,7 @@ class _upload_videoState extends State<upload_video> {
   void initState() {
     // TODO: implement initState
     _determinePosition();
+    getConnectivity();
     setState(() {
       videoPlayerController = VideoPlayerController.file(widget.videofile);
     });
@@ -261,4 +288,27 @@ class _upload_videoState extends State<upload_video> {
           ),
         ));
   }
+
+  showDialogBox() => showCupertinoDialog<String>(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text('No Connection'),
+          content: const Text('Please check your internet connectivity'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context, 'Cancel');
+                setState(() => isAlertSet = false);
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected && isAlertSet == false) {
+                  showDialogBox();
+                  setState(() => isAlertSet = true);
+                }
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
 }

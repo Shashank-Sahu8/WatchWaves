@@ -17,7 +17,7 @@ String uid = FirebaseAuth.instance.currentUser!.uid;
 
 class _add_videoState extends State<add_video> {
   videoselect(ImageSource src) async {
-    final video = await ImagePicker().pickVideo(source: src);
+    final XFile? video = await ImagePicker().pickVideo(source: src);
     if (video != null) {
       Fluttertoast.showToast(
           msg: "Video Selectes ${video.path}", backgroundColor: Colors.grey);

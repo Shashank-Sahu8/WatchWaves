@@ -4,7 +4,6 @@
 // @override
 // void initState() {
 //   getConnectivity();
-//   countrycode.text = "+91";
 //   super.initState();
 // }
 //
@@ -30,7 +29,7 @@
 //   subscription.cancel();
 //   super.dispose();
 // }
-
+//
 // showDialogBox() => showCupertinoDialog<String>(
 //   context: context,
 //   builder: (BuildContext context) => CupertinoAlertDialog(

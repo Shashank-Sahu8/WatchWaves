@@ -5,7 +5,7 @@ class myuser {
   String profilepic;
   String uid;
   myuser({required this.name, required this.profilepic, required this.uid});
-  //app-->firebase
+  //a to f
   Map<String, dynamic> toJson() {
     return {
       "name": name,
@@ -14,7 +14,7 @@ class myuser {
     };
   }
 
-//firebase-->app
+//f to a
   static myuser fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
     return myuser(
