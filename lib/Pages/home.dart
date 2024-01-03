@@ -11,7 +11,7 @@ class home extends StatefulWidget {
   State<home> createState() => _homeState();
 }
 
-const pageindex = [explore(), add_video(), user_details()];
+const pageindex = [explore(), add_video(), Account()];
 
 class _homeState extends State<home> {
   int page = 0;

@@ -14,17 +14,23 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              child: Text("sign out"),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text("nav"),
+            Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                  },
+                  child: Text("sign out"),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text("nav"),
+                ),
+              ],
             ),
           ],
         ),

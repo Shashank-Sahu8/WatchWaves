@@ -15,8 +15,8 @@ class _videoplayerState extends State<videoplayer> {
   ChewieController? chewieController;
 
   Future initializeVideo() async {
-    videoPlayerController = VideoPlayerController.network(widget.path).play()
-        as VideoPlayerController?;
+    videoPlayerController = VideoPlayerController.network(
+        "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4");
 
     await videoPlayerController?.initialize();
 
@@ -52,6 +52,7 @@ class _videoplayerState extends State<videoplayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: Text("Playvid"),
       ),
       body: Container(
